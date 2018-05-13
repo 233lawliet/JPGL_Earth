@@ -33,7 +33,6 @@ public class Earth  extends JFrame implements GLEventListener{
        GLCapabilities capabilities = new GLCapabilities(profile);  
        GLCanvas canvas = new GLCanvas();  
        canvas.addGLEventListener(this);  
-         
        
         
        
@@ -50,7 +49,7 @@ public class Earth  extends JFrame implements GLEventListener{
        this.setResizable(false);  
        canvas.requestFocusInWindow();  
 	
-       FPSAnimator animator = new FPSAnimator(canvas, 300, true);
+       FPSAnimator animator = new FPSAnimator(canvas, 10, true);
 	   animator.start();
 		
 	}
@@ -75,7 +74,9 @@ public class Earth  extends JFrame implements GLEventListener{
 	      
 	      for(int num=0;num<sphereCenter.size();num++) {
 	      
-	      gl.glBegin (GL2.GL_POLYGON);//static field
+	      //gl.glBegin (GL2.GL_LINES);//对线段连线   计算简单
+	   		 	  
+	      gl.glBegin (GL2.GL_POLYGON);//多边连线   计算复杂
 		        
 	    	  
 	      //float  i=0f,j=1f;   //模拟x,y制造出曲线z
@@ -98,24 +99,45 @@ public class Earth  extends JFrame implements GLEventListener{
 	    		  x=x+y*dota;
 		    	  y=y-x*dota;
 		    	    	  
+		    	  List<Point>  zhengfu=new ArrayList<>();
+		    	  zhengfu.add(new Point(1f, 1f, 1f));
+		    	  zhengfu.add(new Point(1f, 1f, -1f));
+		    	  zhengfu.add(new Point(-1f, 1f, 1f));
+		    	  zhengfu.add(new Point(-1f, 1f, -1f));
+		    	  zhengfu.add(new Point(1f, -1f, 1f));
+		    	  zhengfu.add(new Point(1f, -1f, -1f));
+		    	  zhengfu.add(new Point(-1f, -1f, 1f));
+		    	  zhengfu.add(new Point(-1f, -1f, -1f));
+		    	  
+		    	  for(int i=0;i<8;i++) {
+
+			    	  if(sphereCenter.get(num).getX()==0f){
+					  gl.glColor3f((float) (Math.random()/3+0.6f), (float)(Math.random()/3), 0f);
+			    	  }else
+			    	  gl.glColor3f(zhengfu.get(i).getX()/2+0.5f, zhengfu.get(i).getY()/2+0.5f, zhengfu.get(i).getZ()/2+0.5f);
+			    	  gl.glVertex3f(zhengfu.get(i).getX()*x+sphereCenter.get(num).getX(),zhengfu.get(i).getY()*y+sphereCenter.get(num).getY(),zhengfu.get(i).getZ()*z+sphereCenter.get(num).getZ()); //1
+			    	  
+		    	  }
+		    	  
+		/*    	  
 		    	  if(sphereCenter.get(num).getX()==0f){
-		    		  gl.glColor3f(0.95f, 0.45f, 0f);
+				  gl.glColor3f((float) (Math.random()/3+0.6f), (float)(Math.random()/3), 0f);
 		    	  }else
 		    	  gl.glColor3f(1f, 1f, 0f);
 		    	  gl.glVertex3f(x+sphereCenter.get(num).getX(),y+sphereCenter.get(num).getY(),z+sphereCenter.get(num).getZ()); //1
 		    	  if(sphereCenter.get(num).getX()==0f){
-		    		  gl.glColor3f(0.95f, 0.45f, 0f);
+				    gl.glColor3f((float) (Math.random()/3+0.6f), (float)(Math.random()/3), 0f);
 		    	  }else
 		    	  gl.glColor3f(0.5f, 0.5f, 0f);
 		    	  gl.glVertex3f(x+sphereCenter.get(num).getX(),y+sphereCenter.get(num).getY(),-z+sphereCenter.get(num).getZ()); //1
 		    	  
 		    	  if(sphereCenter.get(num).getX()==0f){
-		    		  gl.glColor3f(0.95f, 0.45f, 0f);
+				    gl.glColor3f((float) (Math.random()/3+0.6f), (float)(Math.random()/3), 0f);
 		    	  }else
 		    	  gl.glColor3f(0f, 1f, 1f);
 		    	  gl.glVertex3f(-x+sphereCenter.get(num).getX(),y+sphereCenter.get(num).getY(),z+sphereCenter.get(num).getZ()); //2
 		    	  if(sphereCenter.get(num).getX()==0f){
-		    		  gl.glColor3f(0.95f, 0.45f, 0f);
+				    gl.glColor3f((float) (Math.random()/3+0.6f), (float)(Math.random()/3), 0f);
 		    	  }else
 		    	  gl.glColor3f(0f, 0.5f, 0.5f);
 		    	  gl.glVertex3f(-x+sphereCenter.get(num).getX(),y+sphereCenter.get(num).getY(),-z+sphereCenter.get(num).getZ()); //2
@@ -123,28 +145,28 @@ public class Earth  extends JFrame implements GLEventListener{
 		    	  
 
 		    	  if(sphereCenter.get(num).getX()==0f){
-		    		  gl.glColor3f(0.95f, 0.45f, 0f);
+				    gl.glColor3f((float) (Math.random()/3+0.6f), (float)(Math.random()/3), 0f);
 		    	  }else
 		    	  gl.glColor3f(1f, 0f, 1f);
 		    	  gl.glVertex3f(-x+sphereCenter.get(num).getX(),-y+sphereCenter.get(num).getY(),z+sphereCenter.get(num).getZ()); //3
 		    	  if(sphereCenter.get(num).getX()==0f){
-		    		  gl.glColor3f(0.95f, 0.45f, 0f);
+				    gl.glColor3f((float) (Math.random()/3+0.6f), (float)(Math.random()/3), 0f);
 		    	  }else
 		    	  gl.glColor3f(0.5f, 0f, 0.5f);
 		    	  gl.glVertex3f(-x+sphereCenter.get(num).getX(),-y+sphereCenter.get(num).getY(),-z+sphereCenter.get(num).getZ()); //3
 		    	  
 
 		    	  if(sphereCenter.get(num).getX()==0f){
-		    		  gl.glColor3f(0.95f, 0.45f, 0f);
+		    		    gl.glColor3f((float) (Math.random()/3+0.6f), (float)(Math.random()/3), 0f);
 		    	  }else
 		    	  gl.glColor3f(1f, 1f, 1f);
 		    	  gl.glVertex3f(x+sphereCenter.get(num).getX(),-y+sphereCenter.get(num).getY(),z+sphereCenter.get(num).getZ()); //4
 		    	  if(sphereCenter.get(num).getX()==0f){
-		    		  gl.glColor3f(0.95f, 0.45f, 0f);
+				    gl.glColor3f((float) (Math.random()/3+0.6f), (float)(Math.random()/3), 0f);
 		    	  }else
 		    	  gl.glColor3f(0f, 0f, 0f);
 		    	  gl.glVertex3f(x+sphereCenter.get(num).getX(),-y+sphereCenter.get(num).getY(),-z+sphereCenter.get(num).getZ()); //4
-				    	    	  
+*/				    	    	  
 		    	  
 
 	        }
